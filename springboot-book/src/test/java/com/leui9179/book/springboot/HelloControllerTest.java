@@ -13,18 +13,20 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.hamcrest.Matchers.is;
 
 
-// 테스트를 진행할 때 JUnit에 내장된 실행자 외에 다른 실행자를 실행시킴.
-// 즉, 스프링부트 테스트와 JUnit 사이에 연결자 역할을 함.
+/*
+@RunWith: 테스트를 진행할 때 JUnit에 내장된 실행자 외에 다른 실행자를 실행시킴.
+즉, 스프링부트 테스트와 JUnit 사이에 연결자 역할을 함.
+*/
 @RunWith(SpringRunner.class)
 
-// 여러 스프링 테스트 어노테이션 중 Web(Spring MVC)에 집중할 수 있는 어노테이션
+// @WebMvcTest: 여러 스프링 테스트 어노테이션 중 Web(Spring MVC)에 집중할 수 있는 어노테이션
 @WebMvcTest(controllers = HelloController.class)
 public class HelloControllerTest {
 
-    @Autowired // 스프링이 관리하는 빈(Bean)을 주입받는다.
+    @Autowired // @Autowired: 스프링이 관리하는 빈(Bean)을 주입받는다.
 
-    // 웹 api 테스트할 때 사용
-    // 스프링 MVC 테스트의 시작점, 이 클래스를 통해 HTTP GET, POST등에 대한 API 테스트를 할 수 있다.
+    /*MockMvc: 웹 api 테스트할 때 사용
+     스프링 MVC 테스트의 시작점, 이 클래스를 통해 HTTP GET, POST 등에 대한 API 테스트를 할 수 있다.*/
     private MockMvc mvc;
 
     @Test
