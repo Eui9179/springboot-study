@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-@RequiredArgsConstructor
+@RequiredArgsConstructor // postsService 인스턴스 생성
 @RestController
 public class PostsApiController {
 
@@ -15,6 +15,7 @@ public class PostsApiController {
 
     @PostMapping("/api/v1/posts")
     public Long save(@RequestBody PostsSaveRequestDto requestDto) {
+        // @RequestBody: 넘어온 json 데이터를 PostsSaveRequestDto 객체로 맵핑
         return postsService.save(requestDto);
     }
 }

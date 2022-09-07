@@ -12,6 +12,7 @@ import lombok.NoArgsConstructor;
 @Getter
 @NoArgsConstructor
 public class PostsSaveRequestDto {
+    // flask 의 Schema 에 해당
     private String title;
     private String content;
     private String author;
