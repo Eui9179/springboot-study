@@ -4,6 +4,7 @@ package com.leui9179.book.springboot;
 import com.leui9179.book.springboot.domain.posts.Posts;
 import com.leui9179.book.springboot.domain.posts.PostsRepository;
 import com.leui9179.book.springboot.web.dto.PostsSaveRequestDto;
+import com.leui9179.book.springboot.web.dto.PostsUpdateRequestDto;
 import org.junit.After;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -11,6 +12,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.boot.web.server.LocalServerPort;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.junit4.SpringRunner;
@@ -63,5 +66,46 @@ public class PostsApiControllerTest {
         assertThat(all.get(0).getTitle()).isEqualTo(title);
         assertThat(all.get(0).getContent()).isEqualTo(content);
 
+    }
+
+    @Test
+    public void Posts_업데이트하기() throws Exception {
+        //given
+        String newTitle = "new title";
+        String newContent = "new content";
+
+        // 데이터 베이스에 직접 저장
+        Posts savedPosts = postsRepository.save(Posts
+                .builder()
+                .title("title")
+                .content("content")
+                .author("leui9179")
+                .build());
+
+        Long updateId = savedPosts.getId();
+
+        //update dto 생성
+        PostsUpdateRequestDto postsUpdateRequestDto = PostsUpdateRequestDto
+                .builder()
+                .title(newTitle)
+                .content(newContent)
+                .build();
+
+        String url = "http://localhost:" + port + "/api/v1/posts/"+updateId;
+
+        HttpEntity<PostsUpdateRequestDto> requestEntity = new HttpEntity<>(postsUpdateRequestDto);
+
+        //when
+        ResponseEntity<Long> responseEntity = restTemplate.exchange(
+            url, HttpMethod.PUT, requestEntity, Long.class
+        );
+
+        //then
+        assertThat(responseEntity.getStatusCode()).isEqualTo(HttpStatus.OK);
+        assertThat(responseEntity.getBody()).isGreaterThan(0L);
+
+        List<Posts> all = postsRepository.findAll();
+        assertThat(all.get(0).getTitle()).isEqualTo(newTitle);
+        assertThat(all.get(0).getContent()).isEqualTo(newContent);
     }
 }
