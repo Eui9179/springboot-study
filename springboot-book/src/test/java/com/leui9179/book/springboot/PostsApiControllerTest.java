@@ -3,6 +3,7 @@ package com.leui9179.book.springboot;
 
 import com.leui9179.book.springboot.domain.posts.Posts;
 import com.leui9179.book.springboot.domain.posts.PostsRepository;
+import com.leui9179.book.springboot.web.dto.PostsResponseDto;
 import com.leui9179.book.springboot.web.dto.PostsSaveRequestDto;
 import com.leui9179.book.springboot.web.dto.PostsUpdateRequestDto;
 import org.junit.After;
@@ -91,13 +92,13 @@ public class PostsApiControllerTest {
                 .content(newContent)
                 .build();
 
-        String url = "http://localhost:" + port + "/api/v1/posts/"+updateId;
+        String url = "http://localhost:" + port + "/api/v1/posts/" + updateId;
 
         HttpEntity<PostsUpdateRequestDto> requestEntity = new HttpEntity<>(postsUpdateRequestDto);
 
         //when
         ResponseEntity<Long> responseEntity = restTemplate.exchange(
-            url, HttpMethod.PUT, requestEntity, Long.class
+                url, HttpMethod.PUT, requestEntity, Long.class
         );
 
         //then
@@ -107,5 +108,26 @@ public class PostsApiControllerTest {
         List<Posts> all = postsRepository.findAll();
         assertThat(all.get(0).getTitle()).isEqualTo(newTitle);
         assertThat(all.get(0).getContent()).isEqualTo(newContent);
+    }
+
+    @Test
+    public void Posts_가져오기() {
+        Posts posts = postsRepository.save(Posts
+                .builder()
+                .title("title")
+                .content("content")
+                .author("Leui9179")
+                .build()
+        );
+
+        Long postsId = posts.getId();
+
+        String url = "http://localhost:" + port + "/api/v1/posts/" + postsId;
+
+        ResponseEntity<PostsResponseDto> responseEntity = restTemplate.getForEntity(url, PostsResponseDto.class);
+
+        assertThat(responseEntity.getStatusCode()).isEqualTo(HttpStatus.OK);
+        assertThat(responseEntity.getBody().getTitle()).isEqualTo("title");
+
     }
 }

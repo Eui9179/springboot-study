@@ -2,6 +2,7 @@ package com.leui9179.book.springboot.service.posts;
 
 import com.leui9179.book.springboot.domain.posts.Posts;
 import com.leui9179.book.springboot.domain.posts.PostsRepository;
+import com.leui9179.book.springboot.web.dto.PostsResponseDto;
 import com.leui9179.book.springboot.web.dto.PostsSaveRequestDto;
 import com.leui9179.book.springboot.web.dto.PostsUpdateRequestDto;
 import lombok.RequiredArgsConstructor;
@@ -28,5 +29,11 @@ public class PostsService {
                 .orElseThrow(() -> new IllegalArgumentException("해당 게시글이 없습니다. id=" + id));
         posts.update(requestDto.getTitle(), requestDto.getContent());
         return id;
+    }
+
+    public PostsResponseDto findById(Long id) {
+        Posts posts = postsRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("해당 게시글이 없습니다. id=" + id));
+        return new PostsResponseDto(posts);
     }
 }
