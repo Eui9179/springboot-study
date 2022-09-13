@@ -1,5 +1,6 @@
 package com.leui9179.book.springboot.domain.posts;
 
+import com.leui9179.book.springboot.domain.BaseTimeEntity;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -10,7 +11,7 @@ import javax.persistence.*;
 @NoArgsConstructor // 기본 생성자 생성
 @Entity // 테이블과 링크될 클래스(카멜케이스를 언더스코어네이밍으로 매칭 시킴)
 // Entity 클래스에서는 절대 Setter 메소드를 만들지 않음. 값을 변경할 일이 있다면 명확한 목적의 메소드를 추가한다.
-public class Posts { // Posts 클래스는 실제 DB의 테이블과 매칭될 클래스이며 보통 Entity 클래스라고 부른다.
+public class Posts extends BaseTimeEntity { // Posts 클래스는 실제 DB의 테이블과 매칭될 클래스이며 보통 Entity 클래스라고 부른다.
     // flask 에서 Model 에 해당
 
     @Id // pk
