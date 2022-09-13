@@ -1,4 +1,4 @@
-package com.leui9179.book.springboot.dto;
+package com.leui9179.book.springboot.web.dto;
 
 import com.leui9179.book.springboot.web.dto.HelloResponseDto;
 import org.junit.Test;

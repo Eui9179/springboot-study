@@ -1,4 +1,4 @@
-package com.leui9179.book.springboot;
+package com.leui9179.book.springboot.web;
 
 
 import com.leui9179.book.springboot.domain.posts.Posts;
